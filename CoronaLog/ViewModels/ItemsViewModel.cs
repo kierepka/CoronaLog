@@ -14,11 +14,13 @@ namespace CoronaLog.ViewModels
     {
         public ObservableCollection<Item> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
+        public Command ScannItemsCommand { get; set; }
 
         public ItemsViewModel()
         {
             Title = "Browse";
             Items = new ObservableCollection<Item>();
+            ScannItemsCommand = new Command(async () => await ExecuteScanItemsCommand());
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
             MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
@@ -27,6 +29,22 @@ namespace CoronaLog.ViewModels
                 Items.Add(newItem);
                 await DataStore.AddItemAsync(newItem);
             });
+        }
+        async Task ExecuteScanItemsCommand()
+        {
+            IsBusy = true;
+            try
+            {
+                var isOk = await DataStore.ScannPeopleAsync();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         async Task ExecuteLoadItemsCommand()

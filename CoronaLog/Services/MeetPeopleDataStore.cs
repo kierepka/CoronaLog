@@ -20,14 +20,20 @@ namespace CoronaLog.Services
             adapter = CrossBluetoothLE.Current.Adapter;
         }
 
-        public async Task<bool> AddItemAsync(Item item)
+        public async Task<bool> ScannPeopleAsync()
         {
             if (adapter.IsScanning) return await Task.FromResult(false);
 
             adapter.DeviceDiscovered += Adapter_DeviceDiscovered;
 
             await adapter.StartScanningForDevicesAsync();
+            return await Task.FromResult(true);
+        }
 
+        public async Task<bool> AddItemAsync(Item item)
+        {
+
+            items.Add(item);
             return await Task.FromResult(true);
         }
 

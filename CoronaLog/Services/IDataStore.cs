@@ -9,6 +9,7 @@ namespace CoronaLog.Services
         Task<bool> AddItemAsync(T item);
         Task<bool> UpdateItemAsync(T item);
         Task<bool> DeleteItemAsync(Guid id);
+        Task<bool> ScannPeopleAsync();
         Task<T> GetItemAsync(Guid id);
         Task<IEnumerable<T>> GetItemsAsync(bool forceRefresh = false);
     }
