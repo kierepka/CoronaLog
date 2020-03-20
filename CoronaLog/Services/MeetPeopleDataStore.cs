@@ -10,9 +10,9 @@ using Xamarin.Forms;
 
 namespace CoronaLog.Services
 {
-    public class MeetPeopleDataStore : IDataStore<Item>
+    public class MeetPeopleDataStore : IDataStore<PeopleMeet>
     {
-        readonly List<Item> items = new List<Item>();        
+        readonly List<PeopleMeet> items = new List<PeopleMeet>();        
         private CancellationTokenSource _cancellationTokenSource;
         readonly IAdapter adapter;        
 
@@ -54,16 +54,16 @@ namespace CoronaLog.Services
             results.Subscribe(
                 r =>
                 {
-                    var item = new Item
+                    var item = new PeopleMeet
                     {
                         
                         Description = r.AdvertisementData.LocalName,
                         Id = r.Device.Uuid,
-                        Text = $"Status: {r.Device.Status}, AdvertisementData: {r.AdvertisementData}, Name: {r.Device.Name}"
+                        Nick = $"Status: {r.Device.Status}, AdvertisementData: {r.AdvertisementData}, Name: {r.Device.Name}"
 
                     };
 
-                    var oldItem = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
+                    var oldItem = items.Where((PeopleMeet arg) => arg.Id == item.Id).FirstOrDefault();
                     if (oldItem != null) 
                         items.Remove(oldItem);
                     items.Add(item);
@@ -79,7 +79,7 @@ namespace CoronaLog.Services
             return await Task.FromResult(true);
         }
 
-        public async Task<bool> AddItemAsync(Item item)
+        public async Task<bool> AddItemAsync(PeopleMeet item)
         {
 
             items.Add(item);
@@ -88,9 +88,9 @@ namespace CoronaLog.Services
 
        
 
-        public async Task<bool> UpdateItemAsync(Item item)
+        public async Task<bool> UpdateItemAsync(PeopleMeet item)
         {
-            var oldItem = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
+            var oldItem = items.Where((PeopleMeet arg) => arg.Id == item.Id).FirstOrDefault();
             items.Remove(oldItem);
             items.Add(item);
 
@@ -99,18 +99,18 @@ namespace CoronaLog.Services
 
         public async Task<bool> DeleteItemAsync(Guid id)
         {
-            var oldItem = items.Where((Item arg) => arg.Id == id).FirstOrDefault();
+            var oldItem = items.Where((PeopleMeet arg) => arg.Id == id).FirstOrDefault();
             items.Remove(oldItem);
 
             return await Task.FromResult(true);
         }
 
-        public async Task<Item> GetItemAsync(Guid id)
+        public async Task<PeopleMeet> GetItemAsync(Guid id)
         {
             return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
         }
 
-        public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
+        public async Task<IEnumerable<PeopleMeet>> GetItemsAsync(bool forceRefresh = false)
         {
             return await Task.FromResult(items);
         }

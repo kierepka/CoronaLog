@@ -13,15 +13,15 @@ namespace CoronaLog.Views
     [DesignTimeVisible(false)]
     public partial class NewItemPage : ContentPage
     {
-        public Item Item { get; set; }
+        public PeopleMeet Item { get; set; }
 
         public NewItemPage()
         {
             InitializeComponent();
 
-            Item = new Item
+            Item = new PeopleMeet
             {
-                Text = "Item name",
+                Nick = "Item name",
                 Description = "This is an item description."
             };
 

@@ -12,7 +12,7 @@ namespace CoronaLog.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        public IDataStore<PeopleMeet> DataStore => DependencyService.Get<IDataStore<PeopleMeet>>();
 
         bool isBusy = false;
         public bool IsBusy

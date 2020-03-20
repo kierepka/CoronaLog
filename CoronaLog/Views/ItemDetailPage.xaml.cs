@@ -26,9 +26,9 @@ namespace CoronaLog.Views
         {
             InitializeComponent();
 
-            var item = new Item
+            var item = new PeopleMeet
             {
-                Text = "Item 1",
+                Nick = "Item 1",
                 Description = "This is an item description."
             };
 

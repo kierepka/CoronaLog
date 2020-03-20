@@ -10,22 +10,22 @@ using CoronaLog.Views;
 
 namespace CoronaLog.ViewModels
 {
-    public class ItemsViewModel : BaseViewModel
+    public class MeetPeopleViewModel : BaseViewModel
     {
-        public ObservableCollection<Item> Items { get; set; }
+        public ObservableCollection<PeopleMeet> Items { get; set; }
         public Command LoadItemsCommand { get; set; }
         public Command ScannItemsCommand { get; set; }
 
-        public ItemsViewModel()
+        public MeetPeopleViewModel()
         {
             Title = "Browse";
-            Items = new ObservableCollection<Item>();
+            Items = new ObservableCollection<PeopleMeet>();
             ScannItemsCommand = new Command(async () => await ExecuteScanItemsCommand());
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
 
-            MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
+            MessagingCenter.Subscribe<NewItemPage, PeopleMeet>(this, "AddItem", async (obj, item) =>
             {
-                var newItem = item as Item;
+                var newItem = item as PeopleMeet;
                 Items.Add(newItem);
                 await DataStore.AddItemAsync(newItem);
             });
