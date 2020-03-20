@@ -36,6 +36,7 @@ namespace CoronaLog.ViewModels
             try
             {
                 var isOk = await DataStore.ScannPeopleAsync();
+                if (isOk) await ExecuteLoadItemsCommand();
             }
             catch (Exception ex)
             {

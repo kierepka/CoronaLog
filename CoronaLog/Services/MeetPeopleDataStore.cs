@@ -1,32 +1,81 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CoronaLog.Models;
-using Plugin.BLE;
-using Plugin.BLE.Abstractions.Contracts;
+using Plugin.BluetoothLE;
+using Xamarin.Essentials;
+using Xamarin.Forms;
 
 namespace CoronaLog.Services
 {
     public class MeetPeopleDataStore : IDataStore<Item>
     {
-        readonly List<Item> items = new List<Item>();
-        IBluetoothLE ble;
-        IAdapter adapter;
+        readonly List<Item> items = new List<Item>();        
+        private CancellationTokenSource _cancellationTokenSource;
+        readonly IAdapter adapter;        
 
         public MeetPeopleDataStore()
         {
-            ble = CrossBluetoothLE.Current;
-            adapter = CrossBluetoothLE.Current.Adapter;
+            adapter = CrossBleAdapter.Current;
         }
 
         public async Task<bool> ScannPeopleAsync()
         {
+
             if (adapter.IsScanning) return await Task.FromResult(false);
 
-            adapter.DeviceDiscovered += Adapter_DeviceDiscovered;
+            if (Device.RuntimePlatform == Device.Android)
+            {
 
-            await adapter.StartScanningForDevicesAsync();
+                var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+
+                if (status != PermissionStatus.Granted)
+                {
+
+                    var permissionResult = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+
+
+                    if (permissionResult != PermissionStatus.Granted)
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Permisions", "Permission denied. Not scanning.", "OK");
+
+                        return await Task.FromResult(false);
+                    }
+                }
+            }
+            var sconf = new ScanConfig
+            {
+                ScanType = BleScanType.Balanced
+            };
+
+            var results = adapter.Scan(sconf);
+            results.Subscribe(
+                r =>
+                {
+                    var item = new Item
+                    {
+                        
+                        Description = r.AdvertisementData.LocalName,
+                        Id = r.Device.Uuid,
+                        Text = $"Status: {r.Device.Status}, AdvertisementData: {r.AdvertisementData}, Name: {r.Device.Name}"
+
+                    };
+
+                    var oldItem = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
+                    if (oldItem != null) 
+                        items.Remove(oldItem);
+                    items.Add(item);
+
+
+                },
+                 async ex =>
+                 {
+                     await Application.Current.MainPage.DisplayAlert("ERROR", ex.ToString(), "OK");
+                 }                                  
+            );
+            
             return await Task.FromResult(true);
         }
 
@@ -37,17 +86,7 @@ namespace CoronaLog.Services
             return await Task.FromResult(true);
         }
 
-        private void Adapter_DeviceDiscovered(object sender, Plugin.BLE.Abstractions.EventArgs.DeviceEventArgs e)
-        {
-            var item = new Item
-            {
-                Description = e.Device.Name,
-                Id = e.Device.Id,
-                Text = e.Device.State.ToString()
-            };
-
-            items.Add(item);
-        }
+       
 
         public async Task<bool> UpdateItemAsync(Item item)
         {

@@ -13,7 +13,7 @@ namespace CoronaLog
         {
             InitializeComponent();
 
-            DependencyService.Register<MeetPeopleDataStore>();
+            DependencyService.Register<Services.MeetPeopleDataStore>();
             MainPage = new AppShell();
         }
 
