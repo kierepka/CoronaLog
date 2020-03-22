@@ -6,18 +6,11 @@ CoronaLog app for CoVID-19 offline loggin
 
 
 # TEAM MEMBERS
-dr n.med. Łukasz Kownacki, M.D., Ph.D. , radiolosist
-idea and project menagement
-luke@mrlab.pl
-Mateusz Kierepka
-IT leader - coding and graphics coordination
-mateusz@kierepka.pl
-Radosław Kierepka
-graphics designer
-kierepka@gmail.com
-Łukasz Makowski
-publications, PR and commercialisation
-lukasz.makowski@looksoft.pl
+1. dr n.med. Łukasz Kownacki, M.D., Ph.D. , radiolosist
+idea and project menagement, luke@mrlab.pl
+2. Mateusz Kierepka, IT leader - coding and graphics coordination, mateusz@kierepka.pl
+3. Radosław Kierepka, graphics designer, kierepka@gmail.com
+4. Łukasz Makowski, publications, PR and commercialisation, lukasz.makowski@looksoft.pl
 
 # What problem does your idea/project solve? 
 1. What it is?  How does it work? What problem does it solve? 
