@@ -15,5 +15,6 @@
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.396" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.5.1" />
     <PackageReference Include="Plugin.BluetoothLE" Version="6.2.6" />
+    <PackageReference Include="Xamarin.Forms.Maps" Version="4.5.0.396" />
   </ItemGroup>
 </Project>
