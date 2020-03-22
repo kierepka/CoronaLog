@@ -1,9 +1,5 @@
-# CoronaLog
-CoronaLog app for CoVID-19 offline loggin
-
-
 # CoronaHack - Hack the Plague !
-
+CoronaLog app for CoVID-19 offline loggin
 
 # TEAM MEMBERS
 1. dr n.med. Łukasz Kownacki, M.D., Ph.D. , radiolosist
